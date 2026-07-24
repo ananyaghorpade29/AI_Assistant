@@ -1,0 +1,40 @@
+from pypdf import  PdfReader
+from database.database import (create_database,
+				add_student,
+				get_all_students,
+				update_student_cgpa,
+				delete_student)
+
+def main():
+	print("Starting AI Assistant...")
+	create_database()
+	add_student("Ananya", "BscDs", 8.4," ananya@gmail.com" )
+	add_student('Ananya', 'BscDs', 8.4, 'ananya@gmail.com')
+	add_student('Nikita', 'LLM', 7.5, 'nikita@gmail.com')
+	add_student('Mac', 'BTech', 8.7, 'mac@gmail.com')
+	add_student('Aditya', 'BscDS', 6.4, 'aditya@gmail.com')
+	add_student('Arya', 'BscDs', 7.5, 'arya@gmail.com')
+	add_student('Parth', 'BPharm', 7.9, 'parth@gmail.com')
+	add_student('Prachi', 'MBA', 8.0, 'prachi@gmail.com')
+	add_student('Arinjay', 'BBS', 7.4, 'arinjay@gmail.com')
+	add_student('Asmi', 'CBSE', 6.0, 'asmi@gmail.com')
+	add_student('Arnev', 'CBSE', 7.0, 'arnev@gmail.com')
+	add_student('Dwij', 'BCom', 6.6, 'dwij@gmail.com')
+	add_student('Arnav', 'BTech', 8.2, 'arnav@gmail.com')
+	add_student('Jayshree', 'BCom', 6.7, 'jayshree@gmail.com')
+	add_student('Gucci', 'BBS', 9.0, 'gucci@gmail.com')
+	add_student('Prisha', 'BscDs', 8.7, 'prisha@gmail.com')
+	add_student('Dhruv', 'BTech', 5.0, 'dhruv@gmail.com')
+	add_student('Solanli', 'BTech',8.3,'sonali@gmail.com')
+	update_student_cgpa(2,2.0)
+
+	students = get_all_students()
+	print("\nStudents in Database: ")
+	for student in students:
+		print(student)
+
+
+
+
+if __name__ =="__main__":
+	main()

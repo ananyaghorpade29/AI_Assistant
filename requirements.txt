@@ -1,0 +1,12 @@
+pypdf
+fpdf2
+torch
+transformers
+python-dotenv
+duckduckgo-search
+sentence-transformers
+langchain-community
+langchain-huggingface
+langchain-text-splitters
+langchain
+
