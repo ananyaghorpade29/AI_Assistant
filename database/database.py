@@ -35,10 +35,11 @@ def add_student(name:str, course:str,cgpa:float, email:str):
 				""",
 				(name, course, cgpa, email),
 			)
+		return True
 		print(f"ADDED student:{name}")
 
-	except sqlite3.Error as error:
-		print(f"Database error:{error}")
+	except sqlite3.Error:
+		return False
 
 
 def get_all_students():
