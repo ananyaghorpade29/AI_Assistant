@@ -44,10 +44,10 @@ def add_student(name:str, course:str,cgpa:float, email:str):
 
 def get_all_students():
 	with sqlite3.connect(DATABASE_PATH) as connection:
-
+		connection.row_factory =  sqlite3.Row
 		cursor = connection.cursor()
 		cursor.execute("SELECT * FROM students")
-		students= cursor.fetchall()
+		students = cursor.fetchall()
 	return students
 
 

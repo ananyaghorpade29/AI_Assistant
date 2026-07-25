@@ -31,9 +31,12 @@ def main():
 	students = get_all_students()
 	print("\nStudents in Database: ")
 	for student in students:
-		print(student)
-
-
+		print(f"ID: {student['id']}")
+		print(f"Name: {student['name']}")
+		print(f"Course: {student['course']}")
+		print(f"CGPA: {student['cgpa']}")
+		print(f"Email: {student['email']}")
+		print("-" * 50)
 
 
 if __name__ =="__main__":
