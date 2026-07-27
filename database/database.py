@@ -51,18 +51,48 @@ def get_all_students():
 	return students
 
 
-def update_student_cgpa(student_id:int,new_cgpa:float):
+def update_student_info(
+			student_id:int,
+			new_name:str =None,
+			new_course:str=None,
+			new_cgpa:float=None,
+			new_email:str=None
+			):
 	with sqlite3.connect(DATABASE_PATH) as connection:
 
 		cursor = connection.cursor()
-		cursor.execute(
-			"""
+		update= []
+		values= []
+
+		if name is not None:
+			update.append("name= ?")
+			values.append(name)
+
+		if course is not None:
+			update.append("course= ?")
+			values.append(course)
+
+		if cgpa is not None:
+			update.append("cgpa= ?")
+			values.append(cgpa)
+
+		if email is not None:
+			update.append("email =?")
+			values.append(email)
+
+		if not updates:
+			return "no fields to update"
+
+		values.append(student_id)
+
+		query = f"""
 			UPDATE students 
-			SET  cgpa = ?
+			SET {",".join(update)}
 			WHERE id = ?
-			""",
-			(new_cgpa, student_id),
-		)
+			"""
+		cursor.execute(query,values)
+		cursor.commit()
+
 	print("Student updated.")
 
 def delete_student(student_id:int):

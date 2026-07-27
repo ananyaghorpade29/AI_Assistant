@@ -1,6 +1,7 @@
 
 
 
+
 """
 Database tool for the AI Assistant.
 
@@ -34,3 +35,10 @@ def list_students_tool():
 		f"Email: {student[4]} | "
 		)
 	return "\n".join(output)
+
+
+def count_students_tool():
+	#count all students in db
+	students =  get_all_students()
+	count= len(students)
+	return f"Total students:{count}"
