@@ -5,23 +5,26 @@ This module extracts text from PDF files.
 """
 
 from pathlib import Path
+
 from pypdf import PdfReader
 
-def read_pdf(pdf_path:Path) -> str:
-	 """
-    Read a PDF file and return all extracted text.
+"""
+Read a PDF file and return all extracted text.
+Args:
+pdf_path: Path to the PDF file.
+Returns:
+A single string containing all extracted text.
+"""
 
-    Args:
-        pdf_path: Path to the PDF file.
+def read_pdf(pdf_path: Path) -> str:
 
-    Returns:
-        A single string containing all extracted text.
-    """
+	if not pdf.path.exists():
+		return "Error: PDF not found at {pdf_path}"
 
 	try:
 		reader = PdfReader(pdf_path)
 		text =""
- 		for page in reader.pages:
+		for page in reader.pages:
 			page_text = page.extract_text()
 
 			if page_text:
