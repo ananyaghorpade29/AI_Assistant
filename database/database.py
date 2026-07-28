@@ -1,14 +1,11 @@
 import sqlite3
-from pathlib import Path
-
-DATABASE_PATH = Path(__file__).parent/"students.db"
+from config import DATABASE_PATH
 
 
 def create_database():
 	with sqlite3.connect(DATABASE_PATH) as connection:
 
 		cursor = connection.cursor()
-		cursor.execute("DROP TABLE IF EXISTS students")
 
 		cursor.execute(
         		""" 
