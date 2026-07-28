@@ -38,18 +38,12 @@ def main():
 	print(count_students_tool())
 	print("-" * 50)
 
-#print pdf as a single string
-	print(f"\nReading pdf...\n")
-	text = read_pdf(PDF_PATH)
-	print(text)
-	print("-"*50)
-
 #print pdf in chunks
 	pdf_text = read_pdf(PDF_PATH)
 	chunks =split_text(
 			pdf_text,
 			chunk_size=500,
-			chunk_overlap=100,)
+			chunk_overlap=50,)
 
 	print(f"Number of chunks:{len(chunks)}\n")
 	for number, chunk in enumerate(chunks,start=1):
