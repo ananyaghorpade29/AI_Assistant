@@ -50,3 +50,22 @@ def split_text(
 		chunks.append(chunk)
 		start += step
 	return chunks
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
