@@ -11,6 +11,7 @@ from config  import PDF_PATH
 from tools.pdf_reader import read_pdf
 from vectorstore.build_vectorstore import split_text
 from vectorstore.embeddings import (create_embedding, load_embedding_model,)
+from vectorstore.semantic_search import semantic_search
 
 
 def main():
@@ -76,6 +77,25 @@ def main():
 	print("\nEmbedding Shape:")
 	print(f"{embedding1.shape}\n{embedding2.shape}")
 
+#semnatic search
+	chunks = [
+		"Python is a programming language.",
+		"Machine learning allows computers to learn from data.",
+		"SQLite is a lightweight database.",
+		"Artificial intelligence uses neural networks.",
+		"Deep learning is a subset of machine learning.",
+		]
+	question =("what is deep learning??")
+	chunk,  score = semantic_search(question,chunks,)
+	print("Question:")
+	print(question)
+
+	print("\nBest match:")
+	print(chunk)
+
+	print("\nSimilarity:")
+	print(score)
+
+
 if __name__ =="__main__":
 	main()
- 
