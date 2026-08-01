@@ -117,12 +117,27 @@ def main():
 
 
 		elif choice == "2":
-			print("\nShow students selected")
-			print("\n" + "Press Enter to continue...")
+			students = list_students_tool()
+
+			print("\nStudents\n")
+			for index,student in enumerate(students,start=1):
+				student_id, name, course, cgpa, email = tuple(student)
+				print(
+				f"{index}. | "
+				f"ID: {student_id:<3} | "
+				f"Name: {name:<10} | "
+				f"Course: {course:<12} | "
+				f"CGPA: {cgpa:<5} | "
+				f"Email: {email}"
+				)
+			print("=" * 50)
+			input("\nPress Enter to continue...")
 
 		elif choice == "3":
-			print("\nCount students selected")
-			print("\n" + "Press Enter to continue...")
+			total = count_students_tool()
+			print()
+			print(total)
+			input("\nPress Enter to continue...")
 
 
 		elif choice == "4":
