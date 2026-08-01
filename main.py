@@ -18,7 +18,6 @@ def show_menu():
 	print("        AI Assistant")
 	print("="*50)
 	print("Welcome to the AI Assistant")
-
 	print("1. Search PDF")
 	print("2. Show Students")
 	print("3. Count Students")
@@ -110,24 +109,24 @@ def main():
 
 	while True:
 		show_menu()
-		choice  = input("Choose an option: ")
+		choice  = input("\nChoose an option: ")
 
 		if choice == "1":
-			print("PDF search selected")
+			print("\nPDF search selected")
 			print("\n" + "Press Enter to continue...")
 
 
 		elif choice == "2":
-			print("Show students selected")
+			print("\nShow students selected")
 			print("\n" + "Press Enter to continue...")
 
 		elif choice == "3":
-			print("Count students selected")
+			print("\nCount students selected")
 			print("\n" + "Press Enter to continue...")
 
 
 		elif choice == "4":
-			print("Goodbye!")
+			print("\nGoodbye!")
 			break
 
 		else:
