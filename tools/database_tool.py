@@ -1,7 +1,3 @@
-
-
-
-
 """
 Database tool for the AI Assistant.
 
@@ -23,19 +19,7 @@ def list_students_tool():
 	students = get_all_students()
 	if not students:
 		return "no students found."
-
-	output = []
-
-	for student in students:
-		output.append(
-		f"ID: {student[0]} | "
-		f"Name: {student[1]} | "
-		f"Course: {student[2]} | "
-		f"Cgpa: {student[3]} | "
-		f"Email: {student[4]} | "
-		)
-	return "\n".join(output)
-
+	return students
 
 def count_students_tool():
 	#count all students in db
