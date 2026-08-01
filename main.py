@@ -13,6 +13,18 @@ from vectorstore.build_vectorstore import split_text
 from vectorstore.embeddings import (create_embedding, load_embedding_model,)
 from vectorstore.semantic_search import semantic_search
 
+def show_menu():
+	print("\n" + "=" *50)
+	print("        AI Assistant")
+	print("="*50)
+	print("Welcome to the AI Assistant")
+
+	print("1. Search PDF")
+	print("2. Show Students")
+	print("3. Count Students")
+	print("4. Exit")
+
+
 
 def main():
 	#add the AI Assistant.
@@ -96,6 +108,33 @@ def main():
 	print("\nSimilarity:")
 	print(score)
 
+	while True:
+		show_menu()
+		choice  = input("Choose an option: ")
+
+		if choice == "1":
+			print("PDF search selected")
+			print("\n" + "Press Enter to continue...")
+
+
+		elif choice == "2":
+			print("Show students selected")
+			print("\n" + "Press Enter to continue...")
+
+		elif choice == "3":
+			print("Count students selected")
+			print("\n" + "Press Enter to continue...")
+
+
+		elif choice == "4":
+			print("Goodbye!")
+			break
+
+		else:
+			print("Invalid option.")
+			input("\nPress Enter to continue...")
 
 if __name__ =="__main__":
 	main()
+
+

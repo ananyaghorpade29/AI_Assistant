@@ -1,0 +1,5 @@
+import pickle
+import faiss
+from config import FAISS_INDEX_DIR
+
+INDEX_PATH = FAISS_INDEX_DIR /"index."

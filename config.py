@@ -22,7 +22,8 @@ REPORTS_DIR = PROJECT_ROOT/"reports"
 
 #VEC STORE
 VECTORSTORE_DIR = PROJECT_ROOT/"vectorstore"
-FAISS_INDEX_DIR = PROJECT_ROOT/"faiss_index"
+FAISS_INDEX_DIR = VECTORSTORE_DIR/"faiss_index"
+INDEX_PATH = FAISS_INDEX_DIR/"index.faiss"
 
 for directory in (
 	DATABASE_DIR,
@@ -30,6 +31,7 @@ for directory in (
 	REPORTS_DIR,
 	VECTORSTORE_DIR,
 	FAISS_INDEX_DIR,
+	INDEX_PATH,
 ):
 	directory.mkdir(parents=True, exist_ok=True)
 
