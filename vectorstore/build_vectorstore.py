@@ -9,8 +9,8 @@ smaller overlapping chunks.
 
 def split_text(
 	text:str,
-	chunk_size= 500,
-	chunk_overlap=100,
+	chunk_size= 300,
+	chunk_overlap=50,
 ) -> list[str]:
 
 
