@@ -26,3 +26,11 @@ def semantic_search(
 			best_score = score
 			best_chunk = chunk
 	return (best_chunk, best_score,)
+
+
+
+
+
+
+
+

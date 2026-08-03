@@ -27,5 +27,5 @@ def save_chunks(chunks):
 def load_chunks():
 	"""Load the list of document chunks."""
 	with open(CHUNKS_PATH, "rb") as file:
-		return pickle.load(file)import pickle
+		return pickle.load(file)
 

@@ -7,11 +7,18 @@ from database.database import (create_database,
 from tools.database_tool import (add_student_tool,
 				 list_students_tool,
 				 count_students_tool)
-from config  import PDF_PATH
+from config  import PDF_FILES
 from tools.pdf_reader import read_pdf
 from vectorstore.build_vectorstore import split_text
 from vectorstore.embeddings import (create_embedding, load_embedding_model,)
 from vectorstore.semantic_search import semantic_search
+from vectorstore.faiss_search import search_faiss
+from vectorstore.index_manager import (load_chunks, load_index,)
+from vectorstore.faiss_search import (
+    build_faiss_index,
+    search_faiss,
+)
+
 
 def show_menu():
 	print("\n" + "=" *50)
@@ -26,7 +33,7 @@ def show_menu():
 
 
 def main():
-	#add the AI Assistant.
+#add the AI Assistant.
 	print("Starting AI Assistant...")
 	create_database()
 
@@ -52,11 +59,13 @@ def main():
 	print("-" * 50)
 
 #print pdf in chunks
-	pdf_text = read_pdf(PDF_PATH)
-	chunks =split_text(
-			pdf_text,
-			chunk_size=500,
-			chunk_overlap=50,)
+	all_chunks =[]
+	for pdf_path in PDF_FILES:
+		print(f"Readinf {pdf_path.name}...")
+		pdf_text = read_pdf(pdf_path)
+		chunks =split_text(pdf_text)
+		all_chunks.extend(chunks)
+	index, model = build_faiss_index(all_chunks)
 
 	print(f"Number of chunks:{len(chunks)}\n")
 	for number, chunk in enumerate(chunks,start=1):
@@ -112,9 +121,23 @@ def main():
 		choice  = input("\nChoose an option: ")
 
 		if choice == "1":
-			print("\nPDF search selected")
-			print("\n" + "Press Enter to continue...")
+			question = input("\nAsk your Question: ")
+			index = load_index()
+			chunks = load_chunks()
+			model = load_embedding_model()
+			while True:
+				chunk,similarity_score = search_faiss(
+					question,
+					chunks,
+					index,
+					model
+					)
+			print("\nBest_match:\n")
+			print(chunk)
 
+			print(f"\nSimilarity_score: {similarity_score:.4f}\n")
+
+			print("\n" + "Press Enter to continue...")
 
 		elif choice == "2":
 			students = list_students_tool()

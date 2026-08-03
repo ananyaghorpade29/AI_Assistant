@@ -20,7 +20,7 @@ A single string containing all extracted text.
 def read_pdf(pdf_path: Path) -> str:
 
 	if not pdf_path.exists():
-		return "Error: PDF not found at {pdf_path}"
+		return f"Error: PDF not found at {pdf_path}"
 
 	try:
 		reader = PdfReader(pdf_path)

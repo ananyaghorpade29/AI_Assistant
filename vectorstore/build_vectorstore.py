@@ -49,6 +49,12 @@ def split_text(
 		chunk = text[start:end]
 		chunks.append(chunk)
 		start += step
+
+	for i, chunk in enumerate(chunks):
+		print(f"\nChunk{i}")
+		print(chunk)
+		print("=" *60)
+
 	return chunks
 
 

@@ -1,3 +1,4 @@
+
 """
 Configuration settings for the AI Assistant project.
 """
@@ -15,7 +16,14 @@ DATABASE_PATH = DATABASE_DIR/"students.db"
 DOCUMENTS_DIR = PROJECT_ROOT/"documents"
 
 #PDF
-PDF_PATH = DOCUMENTS_DIR/"nlp_o.pdf"
+PDF_FILES = [
+	DOCUMENTS_DIR /"nlp_o.pdf",
+	DOCUMENTS_DIR /"aiengineering.pdf",
+	DOCUMENTS_DIR /"buildingML.pdf",
+	DOCUMENTS_DIR /"nlpwtransformers.pdf",
+	]
+for PDF_PATH in PDF_FILES:
+	print(PDF_PATH)
 
 #REPORTS
 REPORTS_DIR = PROJECT_ROOT/"reports"
@@ -31,7 +39,6 @@ for directory in (
 	REPORTS_DIR,
 	VECTORSTORE_DIR,
 	FAISS_INDEX_DIR,
-	INDEX_PATH,
 ):
 	directory.mkdir(parents=True, exist_ok=True)
 
