@@ -3,8 +3,8 @@
 def choose_tool(question: str) ->str:
 	#decide which tool to handle
 	question = question.lower()
-	db_words = ["database", "student","enrolled","record", "count", "db","entries"]
-	pdf_words = ["pdf", "document","file", "chapter","page", "AI","llm","ml","transformers"]
+	db_words = ["total","number","count", "how many","database", "students","list","how","who","enrolled","record", "db","entries","show","list","all","everyone","who","student","students","records",]
+	pdf_words = ["pdf", "document","file", "chapter","page", "ai","page","transformer","transformers","llm","ml","transformers"]
 
 	has_pdf = any(w in question for w in pdf_words)
 	has_db  =  any (w in question for w in db_words)

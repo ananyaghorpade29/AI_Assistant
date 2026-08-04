@@ -30,37 +30,43 @@ def main():
 	print("Type 'exit' to quit\n")
 
 	while True:
-	question = input("You: ").strip()
+		question = input("You: ").strip()
 
-	if question.lower() == "exit":
-		print("Goodbye!")
-		break
-	tool = choose_tool(question)
-	print(f"Selected Tool: {tool}")
+		if question.lower() == "exit":
+			print("Goodbye!")
+			break
 
-	if tool == "database":
-		if "count" in question.lower() or "how many"in question.lower():
-			print(count_students_tool())
+
+		tool = choose_tool(question)
+		print(f"Selected Tool: {tool}")
+
+		if tool == "database":
+			question = question.lower()
+			db_count = ["total","number", "database","count", "how many","how"]
+			db_all = ["list", "who", "all","database","everyone","show", "student", "students", "records","enrolled"]
+			if any(word in question for word in db_count):
+				print(count_students_tool())
+
+			elif any(word in question for word in db_all):
+				students = get_all_students()
+				for student in students:
+					print(dict(student))
+
+		elif tool == "pdf":
+			index = load_index()
+			chunks = load_chunks()
+			model = load_embedding_model()
+			chunk,similarity_score = search_faiss(
+				question,
+				chunks,
+				index,
+				model,
+				)
+			print("\nAnswer:\n")
+			print(chunk)
+
 		else:
-			students = get_all_students
-			for student in students:
-				print(student)
-
-	elif tool == "pdf":
-		index = load_index()
-		chunks = load_chunks()
-		model = load_embedding_model()
-		chunk,similarity_score = search_faiss(
-			question,
-			chunks,
-			index,
-			model,
-			)
-		print("\nAnswer:\n")
-		print(chunk)
-
-	else:
-		print("Sorry, i dont know which tool can answer that :(")
+			print("Sorry, i dont know which tool can answer that :(")
 
 
 
