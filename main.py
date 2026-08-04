@@ -16,8 +16,9 @@ from vectorstore.faiss_search import search_faiss
 from vectorstore.index_manager import (load_chunks, load_index,)
 from vectorstore.faiss_search import (
     build_faiss_index,
-    search_faiss,
-)
+    search_faiss,)
+from tools.tool_router import choose_tool
+
 
 
 def show_menu():
@@ -29,7 +30,6 @@ def show_menu():
 	print("2. Show Students")
 	print("3. Count Students")
 	print("4. Exit")
-
 
 
 def main():

@@ -1,0 +1,11 @@
+
+
+def choose_tool(question: str) ->str:
+	#decide which tool to handle
+	question = question.lower()
+
+	if (
+	"student" in question
+	or "database" in question
+	):
+	return "database"
