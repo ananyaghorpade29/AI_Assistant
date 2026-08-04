@@ -21,81 +21,50 @@ from tools.tool_router import choose_tool
 
 
 
-def show_menu():
-	print("\n" + "=" *50)
-	print("        AI Assistant")
-	print("="*50)
-	print("Welcome to the AI Assistant")
-	print("1. Search PDF")
-	print("2. Show Students")
-	print("3. Count Students")
-	print("4. Exit")
-
-
 def main():
 #add the AI Assistant.
-	create_database()
-	index = load_index()
-	chunks = load_chunks()
-	model = load_embedding_model()
+
+	print("-"*50)
+	print("         AI ASSISTANT")
+	print("-"*50)
+	print("Type 'exit' to quit\n")
+
 	while True:
-		show_menu()
-		choice  = input("\nChoose an option: ")
+	question = input("You: ").strip()
 
-		if choice == "1":
-			question = input("\nAsk your Question: ").strip()
-			if not question:
-				print("Please enter a question.")
-				input("\nPress Enter to continue...")
-				continue
+	if question.lower() == "exit":
+		print("Goodbye!")
+		break
+	tool = choose_tool(question)
+	print(f"Selected Tool: {tool}")
 
-			print(type(index))
-			print(index)
-
-			chunk,similarity_score = search_faiss(
-				question,
-				chunks,
-				index,
-				model,
-				)
-			print("\nBest_match:\n")
-			print(chunk)
-
-			print(f"\nSimilarity_score: {similarity_score:.4f}\n")
-
-			input("\nPress Enter to continue...")
-
-		elif choice == "2":
-			students = list_students_tool()
-
-			print("\nStudents\n")
-			for index,student in enumerate(students,start=1):
-				student_id, name, course, cgpa, email = tuple(student)
-				print(
-				f"{index}. | "
-				f"ID: {student_id:<3} | "
-				f"Name: {name:<10} | "
-				f"Course: {course:<12} | "
-				f"CGPA: {cgpa:<5} | "
-				f"Email: {email}"
-				)
-			print("=" * 50)
-			input("\nPress Enter to continue...")
-
-		elif choice == "3":
-			total = count_students_tool()
-			print()
-			print(total)
-			input("\nPress Enter to continue...")
-
-
-		elif choice == "4":
-			print("\nGoodbye!")
-			break
-
+	if tool == "database":
+		if "count" in question.lower() or "how many"in question.lower():
+			print(count_students_tool())
 		else:
-			print("Invalid option.")
-			input("\nPress Enter to continue...")
+			students = get_all_students
+			for student in students:
+				print(student)
+
+	elif tool == "pdf":
+		index = load_index()
+		chunks = load_chunks()
+		model = load_embedding_model()
+		chunk,similarity_score = search_faiss(
+			question,
+			chunks,
+			index,
+			model,
+			)
+		print("\nAnswer:\n")
+		print(chunk)
+
+	else:
+		print("Sorry, i dont know which tool can answer that :(")
+
+
+
+
 
 if __name__ =="__main__":
 	main()

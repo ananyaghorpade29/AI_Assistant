@@ -6,12 +6,15 @@ def choose_tool(question: str) ->str:
 	db_words = ["database", "student","enrolled","record", "count", "db","entries"]
 	pdf_words = ["pdf", "document","file", "chapter","page", "AI","llm","ml","transformers"]
 
-	if any(w in question for w in pdf_words):
-		return  "pdf"
+	has_pdf = any(w in question for w in pdf_words)
+	has_db  =  any (w in question for w in db_words)
 
-	if any (w in question for w in db_words):
+	if has_pdf and has_db:
+		return "ambigious"
+	if has_pdf:
+		return "pdf"
+	if has_db:
 		return "database"
-
 	return "unknown"
 
 
