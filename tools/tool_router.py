@@ -3,22 +3,16 @@
 def choose_tool(question: str) ->str:
 	#decide which tool to handle
 	question = question.lower()
+	db_words = ["database", "student","enrolled","record", "count", "db","entries"]
+	pdf_words = ["pdf", "document","file", "chapter","page", "AI","llm","ml","transformers"]
 
-	if (
-		"student" in question
-		or "database" in question
-		):
+	if any(w in question for w in pdf_words):
+		return  "pdf"
+
+	if any (w in question for w in db_words):
 		return "database"
 
-	if (
-		"pdf" in question
-		or "document" in question
-		):
-		return "pdf"
-
 	return "unknown"
-
-
 
 
 questions  = [
