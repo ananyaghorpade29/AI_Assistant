@@ -15,7 +15,7 @@ def choose_tool(question: str) ->str:
 		return "pdf"
 	if has_db:
 		return "database"
-	return "unknown"
+	return "web"
 
 
 questions  = [
