@@ -35,10 +35,20 @@ def search_faiss(query:str,
 	query_embedding = create_embedding(query,model)
 	query_embedding = np.array(query_embedding).astype("float32").reshape(1,-1)
 	faiss.normalize_L2(query_embedding)
+
 	similarity_score, indices = index.search(query_embedding, k)
+
 	best_index = indices[0][0]
 	best_similarity_score = similarity_score[0][0]
-	return chunks[best_index], best_similarity_score
+	best_chunk = chunks[best_index]
+
+	chunk_embedding = create_embedding(best_chunk, model)
+	chunk_embedding = np.array(chunk_embedding).astype("float32").reshape(1,-1)
+	faiss.normalize_L2(chunk_embedding)
+
+	distance = np.linalg.norm(query_embedding - chunk_embedding)
+
+	return chunks[best_index], best_similarity_score, distance
 
 
 def main():

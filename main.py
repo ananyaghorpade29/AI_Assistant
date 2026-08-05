@@ -18,8 +18,9 @@ from vectorstore.faiss_search import (
     build_faiss_index,
     search_faiss,)
 from tools.tool_router import choose_tool
-
-
+from tools.database_tool import database_tool
+from tools.pdf_tool import pdf_tool
+from tools.tool_registry import TOOLS
 
 def main():
 #add the AI Assistant.
@@ -37,38 +38,18 @@ def main():
 			break
 
 
-		tool = choose_tool(question)
-		print(f"Selected Tool: {tool}")
+		tool_name = choose_tool(question)
+		print("Tool selected: ", tool_name)
 
-		if tool == "database":
-			question = question.lower()
-			db_count = ["total","number", "database","count", "how many","how"]
-			db_all = ["list", "who", "all","database","everyone","show", "student", "students", "records","enrolled"]
-			if any(word in question for word in db_count):
-				print(count_students_tool())
+		if tool_name == "unknown":
+			print("I dont know which tool to use.")
+			continue
 
-			elif any(word in question for word in db_all):
-				students = get_all_students()
-				for student in students:
-					print(dict(student))
+		tool = TOOLS[tool_name]
+		print("Tool:",tool)
 
-		elif tool == "pdf":
-			index = load_index()
-			chunks = load_chunks()
-			model = load_embedding_model()
-			chunk,similarity_score = search_faiss(
-				question,
-				chunks,
-				index,
-				model,
-				)
-			print("\nAnswer:\n")
-			print(chunk)
-
-		else:
-			print("Sorry, i dont know which tool can answer that :(")
-
-
+		answer = tool["function"](question)
+		print(answer)
 
 
 
