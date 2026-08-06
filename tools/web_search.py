@@ -1,22 +1,22 @@
 
 
-from duckduckgo_search import DDGS
+from ddgs import DDGS
 
 def web_search_tool(question:str) -> str:
 #search the web and return result
 
-	with DDGS as ddgs:
-		results = list(
-			ddgs.text(question, max_results=3,)
-			)
+	with DDGS() as ddgs:
+		results = list(ddgs.text(question, max_results=3,))
+
 	if not results:
-		return "No results found."
+		return "\n\nNo results found.\n\n"
 
-	result = result[0]
-
-	return (
-		f"Title: {result['title']}\n\n"
-		f"Summary: {result['body'}}\n\n"
-		f"URL: {result['href']}"
-		)
-
+	output = []
+	for i , result  in enumerate(results,start=1):
+		output.append(
+			f"Result {i}\n\n"
+			f"Title: {result['title']}\n\n"
+			f"Summary: {result['body']}\n\n"
+			f"URL: {result['href']}\n"
+			)
+	return ("-" * 50 +"\n" + "-" * 50 + "\n").join(output)

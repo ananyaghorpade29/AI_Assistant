@@ -15,8 +15,6 @@ def pdf_tool(question:str):
 		index,
 		model,
 		)
-	print("\nchunk:",chunk)
-	print("\n\nscore:",similarity_score)
 	return (
 		f"\nBest Match:\n {chunk}"
 		f"\n\nSimilarity score: \n{similarity_score:.4f}"

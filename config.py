@@ -22,8 +22,7 @@ PDF_FILES = [
 	DOCUMENTS_DIR /"buildingML.pdf",
 	DOCUMENTS_DIR /"nlpwtransformers.pdf",
 	]
-for PDF_PATH in PDF_FILES:
-	print(PDF_PATH)
+
 
 #REPORTS
 REPORTS_DIR = PROJECT_ROOT/"reports"

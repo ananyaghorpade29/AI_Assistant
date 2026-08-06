@@ -31,25 +31,27 @@ def main():
 	print("Type 'exit' to quit\n")
 
 	while True:
-		question = input("You: ").strip()
+		question = input("\n\nYou: ").strip()
 
 		if question.lower() == "exit":
 			print("Goodbye!")
+			print("\n\n" + "=" *70)
 			break
 
 
 		tool_name = choose_tool(question)
-		print("Tool selected: ", tool_name)
+		print("\n\nTool selected: ", tool_name)
 
 		if tool_name == "unknown":
-			print("I dont know which tool to use.")
+			print("\nI dont know which tool to use.\n")
 			continue
 
 		tool = TOOLS[tool_name]
-		print("Tool:",tool)
+		print("\n\nTool:",tool)
 
 		answer = tool["function"](question)
 		print(answer)
+		print("="*70)
 
 
 

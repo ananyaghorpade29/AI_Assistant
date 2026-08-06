@@ -1,32 +1,39 @@
-
+import re
 
 def choose_tool(question: str) ->str:
 	#decide which tool to handle
+
 	question = question.lower()
-	db_words = ["total","number","count", "how many","database", "students","list","how","who","enrolled","record", "db","entries","show","list","all","everyone","who","student","students","records",]
-	pdf_words = ["pdf", "document","file", "chapter","page", "ai","page","transformer","transformers","llm","ml","transformers"]
 
-	has_pdf = any(w in question for w in pdf_words)
-	has_db  =  any (w in question for w in db_words)
+	db_words = [
+	"total", "number", "count", "database", "students",
+	"list", "enrolled", "record", "db", "entries",
+ 	"everyone", "records"
+	]
 
-	if has_pdf and has_db:
+	pdf_words = ["pdf","document","chapter","page","ai","llm","ml","transformer",
+	"transformers","attention","self-attention","embedding","embeddings","token",
+	"tokens","decoder","encoder","prompt","prompting","fine-tuning","pretraining",
+	"pre-training", "rag",
+	]
+
+	print("Question:",question)
+
+	words = set(re.findall(r"\b\w+\b", question))
+
+	has_db = any(word in words for word in db_words)
+	has_pdf = any(word in words for word in pdf_words)
+
+
+	if has_db and has_pdf:
 		return "ambigious"
+
 	if has_pdf:
 		return "pdf"
+
 	if has_db:
 		return "database"
+
 	return "web"
 
 
-questions  = [
-	"show all student",
-	"read pdf database of all the students from the document database or the pdf",
-	"count students",
-	"search the PDF",
-	"Read the document",
-	"whats todays weather",
-	]
-for q in questions:
-	print(q)
-	print("->", choose_tool(q))
-	print()
