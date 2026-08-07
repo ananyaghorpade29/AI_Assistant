@@ -40,14 +40,14 @@ def main():
 
 
 		tool_name = choose_tool(question)
-		print("\n\nTool selected: ", tool_name)
+		print("\nTool selected: ", tool_name)
 
 		if tool_name == "unknown":
 			print("\nI dont know which tool to use.\n")
 			continue
 
 		tool = TOOLS[tool_name]
-		print("\n\nTool:",tool)
+		print("\nTool:",tool)
 
 		answer = tool["function"](question)
 		print(answer)
