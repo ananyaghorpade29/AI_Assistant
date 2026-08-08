@@ -17,7 +17,7 @@ from vectorstore.index_manager import (load_chunks, load_index,)
 from vectorstore.faiss_search import (
     build_faiss_index,
     search_faiss,)
-from tools.tool_router import choose_tool
+from llm.llm_router import choose_tool
 from tools.database_tool import database_tool
 from tools.pdf_tool import pdf_tool
 from tools.tool_registry import TOOLS
