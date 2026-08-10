@@ -37,3 +37,49 @@ def generate_report(title:str, content:str) -> Path:
 
 path = generate_report("studentReport","ID: 1 | Name: Ananya\nID:2 | Name: Nikita",)
 print(path)
+
+
+
+def generate_report(title, content, output_path):
+    output_path = Path(output_path)
+
+    output_path.parent.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    pdf = FPDF()
+
+    pdf.add_page()
+
+    pdf.set_font(
+        "Arial",
+        "B",
+        16
+    )
+
+    pdf.cell(
+        0,
+        10,
+        title,
+        ln=True,
+        align="C"
+    )
+
+    pdf.ln(10)
+
+    pdf.set_font(
+        "Arial",
+        "",
+        12
+    )
+
+    pdf.multi_cell(
+        0,
+        8,
+        content
+    )
+
+    pdf.output(str(output_path))
+
+    return output_path

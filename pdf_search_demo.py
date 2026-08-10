@@ -1,5 +1,5 @@
 
-from config import PDF_PATH
+from config import PDF_FILES
 from tools.pdf_reader import read_pdf
 from vectorstore.build_vectorstore import split_text
 from vectorstore.faiss_search import  build_faiss_index, search_faiss
@@ -7,7 +7,7 @@ from vectorstore.faiss_search import  build_faiss_index, search_faiss
 
 def main():
 	print("Step 1: Reading PDF..")
-	pdf_text = read_pdf(PDF_PATH)
+	pdf_text = read_pdf(PDF_FILES)
 	print("PDF read successfully")
 
 	print("Step 2: Splitting text")
@@ -22,7 +22,7 @@ def main():
 	question = input("ASK A QUESTION: ")
 
 	print("Step 5: Searching...")
-	chunk, distance = search_faiss(
+	chunk,similarity_score, distance = search_faiss(
 	question,
 	chunks,
 	index,
@@ -32,6 +32,9 @@ def main():
 
 	print("\nBest Matching chunk:\n")
 	print(chunk)
+
+	print("\nSimilarity Score:")
+	print(similarity_score)
 
 	print("\nDistance:")
 	print(distance)
