@@ -21,6 +21,8 @@ from llm.llm_router import choose_tool
 from tools.database_tool import database_tool
 from tools.pdf_tool import pdf_tool
 from tools.tool_registry import TOOLS
+from llm.llm_router import (build_tool_list, build_prompt)
+
 
 def main():
 #add the AI Assistant.
@@ -30,12 +32,13 @@ def main():
 	print("-"*50)
 	print("Type 'exit' to quit\n")
 
+
 	while True:
-		question = input("\n\nYou: ").strip()
+		question = input("\nYou: ").strip()
 
 		if question.lower() == "exit":
 			print("Goodbye!")
-			print("\n\n" + "=" *70)
+			print("\n" + "=" *70)
 			break
 
 

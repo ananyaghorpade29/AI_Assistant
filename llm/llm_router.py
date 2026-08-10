@@ -1,10 +1,10 @@
-
+from google import genai
 import os
 
 from tools.tool_registry import TOOLS
-from openai import OpenAI
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+client = genai.Client()
 
 
 def build_tool_list() ->str:
@@ -25,16 +25,20 @@ def build_prompt(question:str) -> str:
 	prompt = f"""
 	You are a tool-selection assistant.
 
+	Your job is to select the most appropriate
+	tool for the user's question.
+
 	Available tools: 
 	{tools}
+
 	Return only the tool name.
 
-	Question: {question}
+	User question: {question}
 	"""
 	return prompt
 
 def choose_tool(question):
-	api_key=os.getenv("OPENAI_API_KEY")
+	api_key=os.getenv("GEMINI_API_KEY")
 
 	if not api_key:
 		print("Error: API KEY not set")
@@ -43,27 +47,21 @@ def choose_tool(question):
 	prompt = build_prompt(question)
 
 	try:
-		response = client.responses.create(
-			model ="gpt-4.1-mini",
-			input=prompt,
+		response = client.models.generate_content(
+			model ="gemini-3.6-flash",
+			contents = prompt,
 			)
 	except Exception as error:
 		print(f"LLM request failed: {error}")
 		return "web"
 
-	tool_name = response.output_text.strip().lower()
+	tool_name = response.text.strip().lower()
 
 	if tool_name not in TOOLS:
 		print(f"Error: Unknown tool returned by LLM: {tool_name}")
 		print("Falling back to web search")
 		return "web"
 	return tool_name
-
-
-
-
-
-
 
 
 
