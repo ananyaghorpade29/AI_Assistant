@@ -17,11 +17,10 @@ from vectorstore.index_manager import (load_chunks, load_index,)
 from vectorstore.faiss_search import (
     build_faiss_index,
     search_faiss,)
-from llm.llm_router import choose_tool
 from tools.database_tool import database_tool
 from tools.pdf_tool import pdf_tool
 from tools.tool_registry import TOOLS
-from llm.llm_router import (build_tool_list, build_prompt)
+from llm.llm_router import (build_tool_list, build_prompt,choose_tool)
 
 
 def main():
@@ -42,17 +41,33 @@ def main():
 			break
 
 
-		tool_name = choose_tool(question)
+		tool_name,arguments = choose_tool(question)
 		print("\nTool selected: ", tool_name)
 
-		if tool_name == "unknown":
-			print("\nI dont know which tool to use.\n")
+		if tool_name is None:
+			print("\nCould not select a tool. Please try again later.\n")
+			continue
+
+		if tool_name not in TOOLS:
+			print(f"\nUnknown tool: {tool_name}\n")
 			continue
 
 		tool = TOOLS[tool_name]
-		print("\nTool:",tool)
 
-		answer = tool["function"](question)
+
+		print("\nTool: ",tool_name)
+		print("Arguments: ", arguments)
+
+
+		try:
+			if arguments:
+				answer = tool["function"](**arguments)
+			else:
+				answer = tool["function"](question)
+
+		except Exception as error:
+			print(f"Tool execution failed: {error}")
+
 		print(answer)
 		print("="*70)
 
@@ -60,5 +75,6 @@ def main():
 
 if __name__ =="__main__":
 	main()
+
 
 

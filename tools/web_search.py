@@ -2,11 +2,11 @@
 
 from ddgs import DDGS
 
-def web_search_tool(question:str) -> str:
+def web_search_tool(query:str) -> str:
 #search the web and return result
 
 	with DDGS() as ddgs:
-		results = list(ddgs.text(question, max_results=3,))
+		results = list(ddgs.text(query, max_results=3,))
 
 	if not results:
 		return "\n\nNo results found.\n\n"
