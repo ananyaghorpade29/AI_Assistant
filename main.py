@@ -23,6 +23,38 @@ from tools.tool_registry import TOOLS
 from llm.llm_router import (build_tool_list,choose_tool)
 
 
+
+def execute_tool(tool_name:str, arguments:dict, query:str, max_retries:int=2,):
+#execute selected too safely
+
+	if tool_name not in TOOLS:
+		return "Unknown tool selected."
+	tool= TOOLS[tool_name]
+
+	for attempt in range(max_retries + 1):
+
+		try:
+			print(
+			f"Executing tool"
+			f"(attempt {attempt+1})..."
+			)
+
+
+			if arguments:
+				return tool["function"](**arguments)
+			return tool["function"](query)
+
+		except Exception as error:
+			print(f"Tool Execution failed: {error}")
+
+			if attempt < max_retries:
+				print("Retrying...")
+
+	print("Tool failed after all trials")
+	return None
+
+
+
 def main():
 #add the AI Assistant.
 
@@ -42,34 +74,26 @@ def main():
 
 
 		tool_name,arguments = choose_tool(query)
-		print("\nTool selected: ", tool_name)
-
-		if tool_name is None:
-			print("\nCould not select a tool. Please try again later.\n")
-			continue
-
-		if tool_name not in TOOLS:
-			print(f"\nUnknown tool: {tool_name}\n")
-			continue
-
-		tool = TOOLS[tool_name]
 
 
 		print("\nTool: ",tool_name)
 		print("Arguments: ", arguments)
 
+		if tool_name is None:
+			print("I could not determine which to use.")
+			continue
 
-		try:
-			if arguments:
-				answer = tool["function"](**arguments)
-			else:
-				answer = tool["function"](query)
-			print(answer)
+		answer = execute_tool(tool_name, arguments, query, max_retries=2)
 
-		except Exception as error:
-			print(f"Tool execution failed: {error}")
+		if answer is None:
+			print("The tool couldnt complete the request")
+			continue
+
+		print("\nAnswer: ")
+		print(answer)
 
 		print("="*70)
+
 
 
 
