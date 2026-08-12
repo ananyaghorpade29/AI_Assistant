@@ -5,25 +5,26 @@ This module provides a high-level interface
 for interacting with the student database.
 """
 
-from database.database import (add_student, get_all_students,)
+from database.database import (add_student, get_all_students,search_students,)
 
-def database_tool(question :str):
+def database_tool(query: str):
 #handle db queries
-	question = question.lower()
-	db_count = ["total","number", "database","count", "how many","how"]
+	query = query.lower()
+	db_count = ["total","number", "database","count", "how many",]
 	db_all = ["list", "who", "all","database","everyone","show", "student", "students", "records",]
 
-	if any(word in question for word in db_count):
+	if any(word in query for word in db_count):
 		return count_students_tool()
 
-	elif any(word in question for word in db_all):
+	elif any(word in query for word in db_all):
 		students = get_all_students()
 
 		result = []
 		for student in students:
 			result.append(str(dict(student)))
 		return "\n".join(result)
-	return "I couldn't understand the database request."
+
+	return search_students_tool(query)
 
 
 
@@ -46,3 +47,15 @@ def count_students_tool():
 	students =  get_all_students()
 	count= len(students)
 	return f"Total students:{count}"
+
+def search_students_tool(search_term:str):
+	students = search_students(search_term)
+	if not students:
+		return "No matching students found"
+
+	result =[]
+	for student in students:
+		result.append(str(dict(student)))
+	return "\n".join(result)
+
+

@@ -107,3 +107,27 @@ def delete_student(student_id:int):
 
 
 
+def search_students(search_term: str):
+	search_term = search_term.strip().lower()
+	with sqlite3.connect(DATABASE_PATH) as connection:
+		connection.row_factory = sqlite3.Row
+		cursor = connection.cursor()
+
+		cursor.execute(
+			"""
+			SELECT *
+			FROM students
+			WHERE LOWER(name) LIKE ?
+				OR LOWER(course) LIKE ?
+				OR CAST(cgpa AS TEXT) LIKE ?
+				OR LOWER(email) LIKE ?
+			""",
+			(
+			f"%{search_term}%",
+			f"%{search_term}%",
+			f"%{search_term}%",
+			f"%{search_term}%",
+			),
+		)
+		return cursor.fetchall()
+

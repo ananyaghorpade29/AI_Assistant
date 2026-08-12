@@ -4,13 +4,13 @@ from vectorstore.faiss_search import search_faiss
 from vectorstore.index_manager import (load_chunks, load_index)
 
 
-def pdf_tool(question:str):
-#search the pdf for user question
+def pdf_tool(query:str):
+#search the pdf for user query
 	index = load_index()
 	chunks = load_chunks()
 	model = load_embedding_model()
 	chunk,similarity_score, distance = search_faiss(
-		question,
+		query,
 		chunks,
 		index,
 		model,

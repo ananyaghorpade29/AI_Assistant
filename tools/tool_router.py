@@ -1,9 +1,9 @@
 import re
 
-def choose_tool(question: str) ->str:
+def choose_tool(query: str) ->str:
 	#decide which tool to handle
 
-	question = question.lower()
+	query = query.lower()
 
 	db_words = [
 	"total", "number", "count", "database", "students",
@@ -17,9 +17,9 @@ def choose_tool(question: str) ->str:
 	"pre-training", "rag",
 	]
 
-	print("Question:",question)
+	print("Query:",query)
 
-	words = set(re.findall(r"\b\w+\b", question))
+	words = set(re.findall(r"\b\w+\b", query))
 
 	has_db = any(word in words for word in db_words)
 	has_pdf = any(word in words for word in pdf_words)

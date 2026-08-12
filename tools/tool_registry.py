@@ -13,6 +13,18 @@ TOOLS= {
 			"and database information"
 			),
 		"function" : database_tool,
+		"parameters" : {
+			"type" : "OBJECT",
+			"properties": {
+				"query": {
+					"type":"STRING",
+					"description":(
+						"The student related information to search from student database"
+						),
+					},
+				},
+				"required":["query"],
+			},
 		},
 
 	"pdf" :{
@@ -22,6 +34,17 @@ TOOLS= {
 			"embeddings, RAG, and Related topics."
 			),
 		"function": pdf_tool,
+		"parameters" : {
+			"type" : "OBJECT",
+			"properties" : {
+				"query" : {
+					"type":"STRING",
+					"description":("The topic to search inside PDF documents"
+						),
+					},
+				},
+				"required":["query"],
+			},
 		},
 
 	"web" : {
@@ -31,5 +54,18 @@ TOOLS= {
 			"local database or PDF documents."
 			),
 		"function" : web_search_tool,
+		"parameters" : {
+			"type": "OBJECT",
+			"properties": {
+				"query": {
+					"type":"STRING",
+					"description": (
+						"The search query to use on the web"
+						),
+					},
+				},
+				"required":["query"],
+			},
 		},
 	}
+

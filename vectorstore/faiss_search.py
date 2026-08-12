@@ -60,21 +60,25 @@ def main():
 	]
 
 	index, model = build_faiss_index(chunks)
-	question = "how do computers learn data?"
+	query = "how do computers learn data?"
 
 	chunk, similarity_score= search_faiss(
-	question,
+	query,
 	chunks,
 	index,
 	model,)
 
-	print("question:")
-	print(question)
+	print("query:")
+	print(query)
 
 	print("\nBest mMatch:")
 	print(chunk)
 
 	print("\nSimilarity Score")
 	print(similarity_score)
+
+	print("\nDistance")
+	print(distance)
+
 if __name__ == "__main__":
 	main()

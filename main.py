@@ -20,7 +20,7 @@ from vectorstore.faiss_search import (
 from tools.database_tool import database_tool
 from tools.pdf_tool import pdf_tool
 from tools.tool_registry import TOOLS
-from llm.llm_router import (build_tool_list, build_prompt,choose_tool)
+from llm.llm_router import (build_tool_list,choose_tool)
 
 
 def main():
@@ -33,15 +33,15 @@ def main():
 
 
 	while True:
-		question = input("\nYou: ").strip()
+		query = input("\nYou: ").strip()
 
-		if question.lower() == "exit":
+		if query.lower() == "exit":
 			print("Goodbye!")
 			print("\n" + "=" *70)
 			break
 
 
-		tool_name,arguments = choose_tool(question)
+		tool_name,arguments = choose_tool(query)
 		print("\nTool selected: ", tool_name)
 
 		if tool_name is None:
@@ -63,12 +63,12 @@ def main():
 			if arguments:
 				answer = tool["function"](**arguments)
 			else:
-				answer = tool["function"](question)
+				answer = tool["function"](query)
+			print(answer)
 
 		except Exception as error:
 			print(f"Tool execution failed: {error}")
 
-		print(answer)
 		print("="*70)
 
 

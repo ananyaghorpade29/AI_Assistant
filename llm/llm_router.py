@@ -27,14 +27,16 @@ def build_function_declarations():
 			name= name,
 			description = info["description"],
 			parameters = types.Schema(
-				type = "OBJECT",
+				type = info["parameters"]["type"],
 				properties = {
-					"question" : types.Schema(
-						type= "STRING",
-						description = "The uses question or request"
-						),
+					key : types.Schema(
+						type= value["type"],
+						description = value["description"]
+						)
+					for key, value
+					in info["parameters"]["properties"].items()
 					},
-					required=["question"],
+					required=info["parameters"].get("required",[]),
 				),
 			)
 		declarations.append(declaration)
@@ -65,34 +67,14 @@ def build_tool_list() ->str:
 
 
 
-def build_prompt(question:str) -> str:
-	tools = build_tool_list()
-
-	prompt = f"""
-	You are a tool-selection assistant.
-
-	Your job is to select the most appropriate
-	tool for the user's question.
-
-	Available tools: 
-	{tools}
-
-	Return only the tool name.
-
-	User question: {question}
-	"""
-	return prompt
-
-
-
-def choose_tool(question):
+def choose_tool(query):
 #ask GEMINI to select appropriate tool
 	gemini_tool = build_gemini_tools()
 
 	try:
 		response = client.models.generate_content(
 			model ="gemini-3.6-flash",
-			contents = question,
+			contents = query,
 			config = types.GenerateContentConfig(
 				tools = [gemini_tool]
 				),

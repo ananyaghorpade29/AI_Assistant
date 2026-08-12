@@ -71,10 +71,10 @@
                 "Artificial intelligence uses neural networks.",
                 "Deep learning is a subset of machine learning.",
                 ]
-        question =("what is deep learning??")
-        chunk,  score = semantic_search(question,chunks,)
-        print("Question:")
-        print(question)
+        query =("what is deep learning??")
+        chunk,  score = semantic_search(query,chunks,)
+        print("Query:")
+        print(query)
 
         print("\nBest match:")
         print(chunk)

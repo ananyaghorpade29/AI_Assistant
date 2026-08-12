@@ -13,10 +13,10 @@ def main():
 
 	index, model = build_faiss_index(chunks)
 
-	question = input("ASK A QUESTION: ")
+	query = input("ASK A QUESTION: ")
 
 	chunk, distance = search_faiss(
-	question,
+	query,
 	chunks,
 	index,
 	model,
