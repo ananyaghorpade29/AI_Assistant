@@ -21,6 +21,11 @@ from tools.database_tool import database_tool
 from tools.pdf_tool import pdf_tool
 from tools.tool_registry import TOOLS
 from llm.llm_router import (build_tool_list,choose_tool)
+from llm.memory import (
+	add_assistant_message,
+	add_user_message,
+	get_history,
+	clear_history,)
 
 
 
@@ -88,6 +93,8 @@ def main():
 		if answer is None:
 			print("The tool couldnt complete the request")
 			continue
+
+		add_assistant_message(answer)
 
 		print("\nAnswer: ")
 		print(answer)

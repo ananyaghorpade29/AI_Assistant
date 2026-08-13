@@ -3,6 +3,11 @@ import os
 from google import genai
 from tools.tool_registry import TOOLS
 from google.genai import types
+from llm.memory import (
+	add_user_message,
+	add_assistant_message,
+	get_history,
+	clear_history,)
 
 
 
@@ -70,15 +75,21 @@ def build_tool_list() ->str:
 def choose_tool(query):
 #ask GEMINI to select appropriate tool
 	gemini_tool = build_gemini_tools()
+	context = build_conversation_context(query)
+
+	print("\n=======MEMORY========")
+	print(context)
+	print("========================")
 
 	try:
 		response = client.models.generate_content(
 			model ="gemini-3.6-flash",
-			contents = query,
+			contents = context,
 			config = types.GenerateContentConfig(
 				tools = [gemini_tool]
 				),
 			)
+		add_user_message(query)
 
 	except Exception as error:
 		print(f"LLM request failed: {error}")
@@ -87,6 +98,7 @@ def choose_tool(query):
 	if not response.function_calls:
 		print("Gemini did not select a tool.")
 		return None, {}
+
 	function_calls = response.function_calls[0]
 
 	tool_name =  function_calls.name
@@ -97,11 +109,24 @@ def choose_tool(query):
 
 	if tool_name not in TOOLS:
 		print("Unknown tool:" , tool_name)
-		return
+		return None, {}
+
 	tool = TOOLS[tool_name]
 
 
 	return tool_name,arguments
 
 
+def build_conversation_context(question:str) -> str:
+#build a prompt containing conversation history.
 
+	history = get_history()
+	lines= []
+
+	for message in history:
+		role = message["role"]
+		content = message["content"]
+
+		lines.append(f"{role}:{content}")
+	lines.append(f"user:{question}")
+	return "\n".join(lines)
