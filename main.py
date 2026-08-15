@@ -26,48 +26,22 @@ from llm.memory import (
 	add_user_message,
 	get_history,
 	clear_history,)
-
-
-
-def execute_tool(tool_name:str, arguments:dict, query:str, max_retries:int=2,):
-#execute selected too safely
-
-	if tool_name not in TOOLS:
-		return "Unknown tool selected."
-	tool= TOOLS[tool_name]
-
-	for attempt in range(max_retries + 1):
-
-		try:
-			print(
-			f"Executing tool"
-			f"(attempt {attempt+1})..."
-			)
-
-
-			if arguments:
-				return tool["function"](**arguments)
-			return tool["function"](query)
-
-		except Exception as error:
-			print(f"Tool Execution failed: {error}")
-
-			if attempt < max_retries:
-				print("Retrying...")
-
-	print("Tool failed after all trials")
-	return None
+from google import genai
+from llm.agent import AIAssistant
 
 
 
 def main():
-#add the AI Assistant.
+#aRUN AI Assistant.
 
 	print("-"*50)
 	print("         AI ASSISTANT")
 	print("-"*50)
 	print("Type 'exit' to quit\n")
 
+
+	client = genai.Client()
+	assistant = AIAssistant(client)
 
 	while True:
 		query = input("\nYou: ").strip()
@@ -76,28 +50,18 @@ def main():
 			print("Goodbye!")
 			print("\n" + "=" *70)
 			break
-
-
-		tool_name,arguments = choose_tool(query)
-
-
-		print("\nTool: ",tool_name)
-		print("Arguments: ", arguments)
-
-		if tool_name is None:
-			print("I could not determine which to use.")
+		if not query:
 			continue
 
-		answer = execute_tool(tool_name, arguments, query, max_retries=2)
+		try:
+			answer = assistant.run(query)
 
-		if answer is None:
-			print("The tool couldnt complete the request")
-			continue
+			print("\nAssistant: ")
+			print(answer)
 
-		add_assistant_message(answer)
+		except Exception as error:
+			print(f"\nAssistant error: {error}")
 
-		print("\nAnswer: ")
-		print(answer)
 
 		print("="*70)
 

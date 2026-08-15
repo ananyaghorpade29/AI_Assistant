@@ -18,12 +18,12 @@ def main():
 	index, model = build_faiss_index(chunks)
 	print("FAISS created successfully")
 
-	print("Step 4: Waiting for a question...")
-	question = input("ASK A QUESTION: ")
+	print("Step 4: Waiting for a query...")
+	query = input("ASK A QUERY: ")
 
 	print("Step 5: Searching...")
 	chunk,similarity_score, distance = search_faiss(
-	question,
+	query,
 	chunks,
 	index,
 	model,
