@@ -6,6 +6,8 @@ from llm.memory import (
 	get_history,
 	clear_history,)
 from tools.tool_registry import TOOLS
+from config import GEMINI_MODEL
+
 
 class AIAssistant:
 #main AI Assistant agent.
@@ -85,7 +87,7 @@ class AIAssistant:
 			"""
 
 			response = self.client.models.generate_content(
-				model = "gemini-3.6-flash",
+				model = GEMINI_MODEL,
 				contents=prompt,
 				)
 			return response.text.strip()

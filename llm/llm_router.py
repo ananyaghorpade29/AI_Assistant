@@ -8,7 +8,7 @@ from llm.memory import (
 	add_assistant_message,
 	get_history,
 	clear_history,)
-
+from config import GEMINI_MODEL
 
 
 def create_client():
@@ -83,7 +83,7 @@ def choose_tool(query):
 
 	try:
 		response = client.models.generate_content(
-			model ="gemini-3.6-flash",
+			model =GEMINI_MODEL,
 			contents = context,
 			config = types.GenerateContentConfig(
 				tools = [gemini_tool]

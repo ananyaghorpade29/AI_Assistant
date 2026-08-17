@@ -2,11 +2,21 @@
 """
 Configuration settings for the AI Assistant project.
 """
-
+import os
 from pathlib import Path
 
+GEMINI_MODEL = "gemini-3.6-flash"
 PROJECT_ROOT = Path(__file__).parent
 
+def get_gemini_api_key():
+#get gemini key
+	api_key = os.getenv("GEMINI_API_KEY")
+
+	if not api_key:
+		raise ValueError(
+			"GEMINI_API_KEY environment variable is not set"
+			)
+	return api_key
 
 #DB
 DATABASE_DIR = PROJECT_ROOT/"database"

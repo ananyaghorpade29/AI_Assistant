@@ -28,8 +28,9 @@ from llm.memory import (
 	clear_history,)
 from google import genai
 from llm.agent import AIAssistant
+from llm.client import create_gemini_client
 
-
+client = create_gemini_client()
 
 def main():
 #aRUN AI Assistant.
@@ -40,7 +41,8 @@ def main():
 	print("Type 'exit' to quit\n")
 
 
-	client = genai.Client()
+	client = create_gemini_client()
+
 	assistant = AIAssistant(client)
 
 	while True:
