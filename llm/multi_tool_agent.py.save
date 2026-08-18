@@ -1,0 +1,29 @@
+from langchain_google_genai import ChatGoogleGenerativeAI
+from config import GEMINI_MODEL
+from tools.langchain_registry import LANGCHAIN_TOOLS
+from langchain_core.messages import ToolMessage
+
+#create gemini model
+model = ChatGoogleGenerativeAI(
+	model = GEMINI_MODEL)
+
+#give access to gemini
+model_with_tools = model.bind_tools(LANGCHAIN_TOOLS)
+
+#lookup dict
+tool_map = {
+	tool.name: tool
+	for tool in LANGCHAIN_TOOLS}
+
+#user question
+query = "How many students are enrolled?"
+messages.append(("human",question))
+
+
+#agent loop
+while True:
+	#Ask gemini what to do
+	response = model.bind_tools.invoke(messages)
+	message.append(response)
+
+	#save gemini

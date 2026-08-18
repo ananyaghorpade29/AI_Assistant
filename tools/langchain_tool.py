@@ -1,5 +1,5 @@
 from langchain_core.tools import tool
-from database.database import count_students 
+from tools.database_tool import count_students_tool
 @tool
 def student_database(query:str) -> str:
 	"""
@@ -14,7 +14,7 @@ def student_database(query:str) -> str:
 		or "total" in query
 		or "enrolled" in query
 		):
-		result = count_students()
+		result = count_students_tool()
 		return str(result)
 
 
