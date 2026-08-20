@@ -9,22 +9,30 @@ from database.database import (add_student, get_all_students,search_students,)
 
 def database_tool(query: str):
 #handle db queries
-	query = query.lower()
-	db_count = ["total","number", "database","count", "how many",]
-	db_all = ["list", "who", "all","database","everyone","show", "student", "students", "records",]
 
-	if any(word in query for word in db_count):
-		return count_students_tool()
+	if not query.strip():
+		return "Error: Database question is empty."
 
-	elif any(word in query for word in db_all):
-		students = get_all_students()
+	try:
 
-		result = []
-		for student in students:
-			result.append(str(dict(student)))
-		return "\n".join(result)
+		query = query.lower()
+		db_count = ["total","number", "database","count", "how many",]
+		db_all = ["list", "who", "all","database","everyone","show", "student", "students", "records",]
 
-	return search_students_tool(query)
+		if any(word in query for word in db_count):
+			return count_students_tool()
+
+		elif any(word in query for word in db_all):
+			students = get_all_students()
+
+			result = []
+			for student in students:
+				result.append(str(dict(student)))
+			return "\n".join(result)
+		return search_students_tool(query)
+
+	except Exception as error:
+		return f"Database error: {error}"
 
 
 

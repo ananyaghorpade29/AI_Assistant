@@ -4,37 +4,60 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from config import GEMINI_MODEL
 from tools.langchain_registry import LANGCHAIN_TOOLS
 
-
-model = ChatGoogleGenerativeAI(
-	model = GEMINI_MODEL,)
-
-agent = create_agent(
-	model = model,
-	tools = LANGCHAIN_TOOLS,
-	)
-query = (
-	"Search my PDF documents for information about "
-	"transformer architecture. Then create a PDF report "
-	"using the information you found. After creating the "
-	"report, tell me where it was saved."
+from memory.memory_manager import (
+	load_memory,
+	save_memory,
 	)
 
-result = agent.invoke(
-	{
-	"messages":[
-		{
-		"role": "user",
-		"content": query,
-		}
-		]
-	}
-)
+def main():
 
-final_message = result["message"][-1]
+	model = ChatGoogleGenerativeAI(
+		model = GEMINI_MODEL,)
 
-print("\n===== AGENT TRACE =====")
+	agent = create_agent(
+		model = model,
+		tools = LANGCHAIN_TOOLS,
+		)
 
-for message in result["messages"]:
-	print("\n",type(message).__name__)
-	print(message)
+	query = (
+		"Search my PDF documents for information about "
+		"transformer architecture. Then create a PDF report "
+		"using the information you found. After creating the "
+		"report, tell me where it was saved."
+		)
 
+	conversation_history = load_memory()
+	print("=" *70)
+	print("AI ASSISTANT")
+	print("="*70)
+	print("Type 'exit' to quit.")
+
+	while True:
+
+		query = input("\nYou: ").strip()
+		if query.lower() == "exit":
+			print("Goodbye!! See you again:)")
+			break
+
+		conversation_history.append(
+			{
+			"role":"user",
+			"content":query,
+			}
+			)
+
+		result = agent.invoke(
+			{
+			"messages":conversation_history
+			}
+			)
+
+		conversation_history = result["messages"]
+		save_memory(conversation_history)
+		final_message = result["messages"][-1]
+
+		print("\nAssistant:")
+		print(final_message.content)
+
+if __name__ == "__main__":
+	main()
