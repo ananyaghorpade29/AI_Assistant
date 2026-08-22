@@ -8,6 +8,11 @@ from memory.memory_manager import (
 	load_memory,
 	save_memory,
 	)
+from memory.long_term_memory import (
+	add_memory,
+	get_memories,
+	)
+
 
 def main():
 
@@ -38,6 +43,34 @@ def main():
 		if query.lower() == "exit":
 			print("Goodbye!! See you again:)")
 			break
+
+#save long-term memory
+		if query.lower().startswith("remember:"):
+			memory_text = query[len("remember:")].strip()
+
+			add_memory = (
+				"user",
+				memory_text,
+				)
+
+			print("Memory Saved.")
+			continue
+
+#display long-term memories
+		if query.lower() == "memories":
+			memories = get_memories()
+
+			if not memories:
+				print("No memories found.")
+			else:
+				print("\nLong-term memories: ")
+
+				for memory in memories:
+					print(
+						f"-[{memory[0]}]"
+						f"{memory[1]}"
+						)
+			continue
 
 		conversation_history.append(
 			{

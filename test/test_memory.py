@@ -1,17 +1,14 @@
-from memory.memory_manager import (
-	load_memory,
-	save_memory)
+from llm.memory import(
+	add_user_message,
+	add_assistant_message,
+	get_history,
+	clear_history,)
 
-history = load_memory()
-print("Existing memory:")
-print(history)
+add_user_message("Explain Transformers.")
+add_assistant_message("Transformers use attention mechanisms.")
+add_user_message("What is self-attention?")
 
-history.append(
-	{
-	"role":"user",
-	"content":"Hellow from my AI assistant.",
-	}
-	)
-save_memory(history)
-print("\nMemory saved successfully!")
+history = get_history()
+for message in history:
+	print(message)
 

@@ -65,8 +65,32 @@ if __name__ == "__main__":
 		"project",
 		"The AI Assistant use SQLite.",
 	)
+
+	add_memory(
+		"project",
+		"The AI Assistant use FAISS."
+	)
+
 	memories = get_memories()
 	for memory in memories:
 		print(memory)
+
+
+def build_long_term_context() -> str:
+	"""
+	convert long-term memories into text for language model.
+	"""
+	memories = get_memories()
+	if not memories:
+		return ""
+	lines= []
+	for memory in memories:
+		category = memory[1]
+		content = memory[2]
+
+		lines.append(
+		f"-[{category}] {content}"
+		)
+	return "\n".join(lines)
 
 

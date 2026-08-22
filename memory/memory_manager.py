@@ -28,27 +28,6 @@ def load_memory() -> list:
 def save_memory(history:list) -> None:
 #save converstion history json
 
-	serializable_history =[]
-
-	for message in history:
-		if isinstance(message, HumanMessage):
-			serializable_history.append({
-				"role":"user",
-				"content":message.content,
-				})
-
-		elif isinstance(message, AIMessage):
-			serializable_history.append({
-				"role":"assistant",
-				"content":message.content,
-				})
-
-		elif isinstance(message, ToolMessage):
-			serializable_history.append({
-				"role":"tool",
-				"content":message.content,
-				})
-
 	with open(
 		MEMORY_FILE,
 		"w",
@@ -63,14 +42,14 @@ def save_memory(history:list) -> None:
 			 )
 
 
-def get_recent_messages(history:list) -> list:
+def get_recent_messages(memory:list) -> list:
 #return most recent messages
-	return history[-MAX_RECENT_MESSAGES:]
+	return memory["messages"][-MAX_RECENT_MESSAGES:]
 
 
 def summarize_messages(
 	model,
-	exicting_summary:str,
+	existing_summary:str,
 	messages:list,
 ) -> str:
 #gemini summarize old convo
@@ -118,13 +97,66 @@ def manage_memory(model, memory:dict,) -> dict:
 		return memory
 
 	old_messages = messages[:-MAX_RECENT_MESSAGES]
-	recent_messages = messages[-MAX_RECENT_MESSAGES]
-
-	summary = summarize_messages(model,old_messages)
+	recent_messages = messages[-MAX_RECENT_MESSAGES:]
+	summary = summarize_messages(
+		model,
+		memory.get("summary",""),
+		old_messages,
+		)
 	memory["summary"]= summary
 	memory["messages"]= recent_messages
 
 	return memory
 
 
+
+def add_messages (
+	memory:dict,
+	role:str,
+	content:str,
+) -> str:
+
+	"""
+	Add a message to conversation memory.
+	"""
+	memory["messages"].append(
+		{
+		"role":role,
+		"content":content,
+		}
+		)
+
+def build_memory_context(memory):
+	"""
+	Build a text representation of memory for large language model.
+	"""
+	summary = memory.get(
+		"summary",
+		"",
+		)
+
+	messages = memory.get(
+		"messages",
+		[],
+		)
+
+	context_parts = []
+
+	if summary:
+		context_parts.append(
+			f"Conversation summary:\n{summary}"
+			)
+	if messages:
+		recent_text = "\n".join(
+			[
+			f"{message['role']}: "
+			f"{message['content']}: "
+			for message in messages
+			]
+			)
+
+		context_parts.append(
+			f"Recent conversation:\n{recent_text}"
+			)
+	return "\n\n".join(context_parts)
 

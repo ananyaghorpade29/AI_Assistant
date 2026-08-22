@@ -11,7 +11,7 @@ def database_tool(query: str):
 #handle db queries
 
 	if not query.strip():
-		return "Error: Database question is empty."
+		return "Error: Database query is empty."
 
 	try:
 

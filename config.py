@@ -5,7 +5,7 @@ Configuration settings for the AI Assistant project.
 import os
 from pathlib import Path
 
-GEMINI_MODEL = "gemini-3.6-flash"
+GEMINI_MODEL = "gemini-3.7-flash"
 PROJECT_ROOT = Path(__file__).parent
 
 def get_gemini_api_key():
